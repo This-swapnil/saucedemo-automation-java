@@ -21,10 +21,12 @@ public class AccountLogin extends BasePage {
 
     //Action Methods
     public void setUsername(String uname) {
+        username.clear();
         username.sendKeys(uname);
     }
 
     public void setPassword(String pass) {
+        password.clear();
         password.sendKeys(pass);
     }
 
