@@ -12,6 +12,7 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Parameters;
+import pageObject.AccountLogin;
 
 import java.io.File;
 import java.io.FileReader;
@@ -60,11 +61,20 @@ public class BaseCase {
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(30));
 
         driver.get(p.getProperty("URL"));
+
+//        performCompleteLogin();
     }
 
     @AfterClass(groups = {"Sanity", "Master", "Regression"})
     public void tearDown() {
         driver.quit();
+    }
+
+    public void performCompleteLogin() {
+        AccountLogin loginPage = new AccountLogin(driver);
+        loginPage.setUsername("standard_user");
+        loginPage.setPassword("secret_sauce");
+        loginPage.setBtnLogin();
     }
 
     public String captureScreen(String tname) throws IOException {
