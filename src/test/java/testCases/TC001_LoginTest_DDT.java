@@ -3,7 +3,6 @@ package testCases;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import pageObject.AccountLogin;
-import pageObject.AccountLogout;
 import testBase.BaseCase;
 import utilities.DataProviders;
 
@@ -24,9 +23,9 @@ public class TC001_LoginTest_DDT extends BaseCase {
             String currentURL = driver.getCurrentUrl();
 
             if (currentURL.equals("https://www.saucedemo.com/inventory.html")) {
-                AccountLogout lg = new AccountLogout(driver);
-                lg.clickMenu();
-                lg.clickBtnLogout();
+//                AccountLogout lg = new AccountLogout(driver);
+//                lg.clickMenu();
+//                lg.clickBtnLogout();
                 logger.info("{} user successfully login!", username);
                 Assert.assertTrue(true);
             } else {
