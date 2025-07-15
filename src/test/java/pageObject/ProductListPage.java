@@ -130,10 +130,12 @@ public class ProductListPage extends BasePage {
             js.executeScript("arguments[0].scrollIntoView(true);", cartIcon);
 //            wait.until(ExpectedConditions.visibilityOf(cartIcon));
 
-            return Integer.parseInt(cartIcon.getText());
+            String cartItems = cartIcon.getText();
+            return !cartItems.isEmpty() ? Integer.parseInt(cartItems) : 0;
+
 //            return cart_item if cart_item else 0;
-        } catch (NumberFormatException e) {
-            throw new RuntimeException(e);
+        } catch (NoSuchElementException e) {
+            return 0;
         }
     }
 
