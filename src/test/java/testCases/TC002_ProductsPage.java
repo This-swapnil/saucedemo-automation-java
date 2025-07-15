@@ -158,4 +158,108 @@ public class TC002_ProductsPage extends BaseCase {
         }
         logger.info("==== Test sorting the products using High-to-Low filter Completed ====");
     }
+
+    @Test(priority = 6)
+    public void testAddToCartAllProducts() {
+        //Validating the add to cart button on PLP
+
+        logger.info("Verify user is able to add all the present product to cart");
+        productsPage = new ProductListPage(driver);
+
+        logger.info("Step2: Add all the products to cart");
+
+        productsPage.addAllProductsToCart();
+        int addedProducts = productsPage.getNumberOfCartItems();
+        List<WebElement> allProducts = productsPage.getAllProducts();
+
+
+        if (addedProducts == allProducts.size()) {
+            logger.info("Successfully added all the  products to cart");
+        } else {
+            logger.error("Unable to add all the products to cart");
+            Assert.fail("Unable to add all the products to cart");
+        }
+
+        productsPage.emptyCart();
+    }
+
+    @Test(priority = 7)
+    public void testRemoveButtons() {
+        logger.info("Verify remove buttons on home page for all the products are functioning properly");
+        productsPage = new ProductListPage(driver);
+
+        productsPage.emptyCart();
+        List<WebElement> removeButtons = productsPage.getAllRemoveButtons();
+        logger.info("Check no remove buttons should be displayed at start");
+
+        Assert.assertTrue(removeButtons.isEmpty());
+
+        logger.info("No remove buttons are present");
+        logger.info("Adding all the products to cart");
+
+        productsPage.addAllProductsToCart();
+        List<WebElement> allProducts = productsPage.getAllProducts();
+        int productsInCart = productsPage.getNumberOfCartItems();
+
+        if (allProducts.size() == productsInCart) {
+            logger.info("Added all the products to cart");
+            logger.info("Removing products using remove button");
+
+            productsPage.emptyCart();
+
+            Assert.assertTrue(productsPage.getAllRemoveButtons().isEmpty());
+            logger.info("All the remove buttons are functioning properly");
+        } else {
+            logger.error("Remove buttons are not functioning properly");
+            Assert.fail();
+        }
+    }
+
+    @Test(priority = 8)
+    public void testAddToCartByTitle() throws InterruptedException {
+        logger.info("Verify user is able to add the products to cart by its title");
+        productsPage = new ProductListPage(driver);
+
+        logger.info("Step2: Provide tht product title for adding to cart");
+        List<WebElement> products = productsPage.getListOfProductsByTitle("Sauce Labs Backpack");
+
+        logger.info("title provided for product: Sauce Labs Backpack");
+        logger.info("Step3: Add product to cart with title Sauce Labs Backpack");
+
+        productsPage.addToCartProductsByTitle("Sauce Labs Backpack");
+
+        try {
+            Assert.assertEquals(products.size(), productsPage.getNumberOfCartItems());
+            logger.info("Product with given title is added to cart");
+        } catch (Exception e) {
+            logger.error(e.getMessage());
+            logger.error("Product with given title is not added to cart");
+            Assert.fail("Product with given title is not added to cart");
+        }
+        productsPage.emptyCart();
+    }
+
+    @Test(priority = 9)
+    public void testAddToCartByPrice() throws InterruptedException {
+        logger.info("Verify use is able to add the products to cart by its price");
+
+        productsPage = new ProductListPage(driver);
+
+        logger.info("Step2: Provide the product price for adding to cart");
+        List<WebElement> products = productsPage.getListOfProductsByPrice("7.99");
+        logger.info("Price provided for product: 7.99");
+
+        logger.info("Step3: Add product to cart with price $7.99");
+        productsPage.addToCartProductByPrice(7.99);
+
+        try {
+            Assert.assertEquals(products.size(), productsPage.getNumberOfCartItems());
+            logger.info("Product with given price is added to cart");
+        } catch (Exception e) {
+            logger.error(e.getMessage());
+            logger.error("Product with given price is not added to cart");
+            Assert.fail("Product with given price is not added to cart");
+        }
+        productsPage.emptyCart();
+    }
 }

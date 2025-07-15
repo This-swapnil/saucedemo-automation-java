@@ -1,6 +1,7 @@
 package pageObject;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -11,7 +12,7 @@ import java.util.List;
 import java.util.NoSuchElementException;
 
 public class ProductListPage extends BasePage {
-
+    JavascriptExecutor js = (JavascriptExecutor) driver;
     //Locatprs
     @FindBy(xpath = "//div[@class='pricebar']/button")
     List<WebElement> btnAddToCarts;
@@ -22,7 +23,7 @@ public class ProductListPage extends BasePage {
     @FindBy(xpath = "//a[@class='shopping_cart_link']")
     WebElement cartIconButton;
 
-    @FindBy(xpath = "//span[@class='shopping_cart_badge']")
+    @FindBy(css = "span[class='shopping_cart_badge']")
     WebElement cartIcon;
 
     @FindBy(xpath = "//div[@class=\"inventory_item_price\"]")
@@ -96,6 +97,10 @@ public class ProductListPage extends BasePage {
         return productPriceLocators;
     }
 
+    public List<WebElement> getAllRemoveButtons() {
+        return btnRemoves;
+    }
+
     public List<WebElement> getListOfProductsByPrice(String price) {
         List<WebElement> matchedProducts = new ArrayList<>();
 
@@ -112,7 +117,7 @@ public class ProductListPage extends BasePage {
         List<WebElement> matchedProducts = new ArrayList<>();
 
         for (WebElement product : productLocator) {
-            String productTitleText = product.findElement(By.xpath(".//div[@class='inventory_item_name']")).getText();
+            String productTitleText = product.findElement(By.cssSelector(".inventory_item_name")).getText();
             if (productTitleText.equals(title)) {
                 matchedProducts.add(product);
             }
@@ -122,17 +127,23 @@ public class ProductListPage extends BasePage {
 
     public int getNumberOfCartItems() {
         try {
-            int cart_item = Integer.parseInt(cartIcon.getText());
+            js.executeScript("arguments[0].scrollIntoView(true);", cartIcon);
+//            wait.until(ExpectedConditions.visibilityOf(cartIcon));
+
+            return Integer.parseInt(cartIcon.getText());
 //            return cart_item if cart_item else 0;
         } catch (NumberFormatException e) {
             throw new RuntimeException(e);
         }
-        return 0;
     }
 
     public void addAllProductsToCart() {
         if (!btnRemoves.isEmpty()) {
             emptyCart();
+            for (WebElement btn : btnAddToCarts) {
+                btn.click();
+            }
+        } else {
             for (WebElement btn : btnAddToCarts) {
                 btn.click();
             }
