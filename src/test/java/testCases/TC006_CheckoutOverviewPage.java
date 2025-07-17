@@ -27,7 +27,7 @@ public class TC006_CheckoutOverviewPage extends BaseCase {
     }
 
 
-    //@Test(priority = 2)
+    @Test(priority = 2)
     public void testCheckoutAllItems() throws IOException {
         plp = new ProductListPage(driver);
         cartPage = new CartPage(driver);
@@ -67,7 +67,7 @@ public class TC006_CheckoutOverviewPage extends BaseCase {
         }
     }
 
-    //    @Test(priority = 3)
+    @Test(priority = 3)
     public void testCheckoutOneItem() throws IOException {
         plp = new ProductListPage(driver);
         cartPage = new CartPage(driver);
@@ -108,7 +108,7 @@ public class TC006_CheckoutOverviewPage extends BaseCase {
         }
     }
 
-    //    @Test(priority = 4)
+    @Test(priority = 4)
     public void testCancelButton() {
         plp = new ProductListPage(driver);
         cartPage = new CartPage(driver);
