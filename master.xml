@@ -9,7 +9,13 @@
         <parameter name="OS" value="Linux"/>
         <parameter name="browser" value="edge"/>
         <classes>
-            <class name="testCases.TC001_LoginTest_DDT"/>
+            <class name="testCases.TC001_LoginTest"/>
+            <class name="testCases.TC002_ProductsPage"/>
+            <class name="testCases.TC003_ProductDetailsPageTest"/>
+            <class name="testCases.TC004_CheckoutInformationPage"/>
+            <class name="testCases.TC005_CartPage"/>
+            <class name="testCases.TC006_CheckoutOverviewPage"/>
+            <class name="testCases.TC007_CompleteCheckoutPage"/>
         </classes>
     </test>
 </suite>
